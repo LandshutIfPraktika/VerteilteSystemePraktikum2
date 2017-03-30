@@ -13,9 +13,9 @@ static int retcode;
 static char * result;
 static manywords mw;
 
-char result_string[DICTSIZ * MAXWORD + DICTSIZ + 1];
 
-
+char * selectw();
+manywords select2w();
 
 int *initw_1_svc(dummy, handle)
 void *dummy;
@@ -69,8 +69,8 @@ char ** selectw_1_svc ( dummy, handle)
 void * dummy;
 struct svc_req * handle;
 { 
-    result = selectw(result_string);
-    return &result_string;
+    result = selectw();
+    return &result;
 }
 
 manywords * select2w_1_svc(dummy, handle)

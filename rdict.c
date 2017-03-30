@@ -14,6 +14,9 @@
 
 CLIENT *handle;
 
+char * selectw();
+manywords select2w();
+
 int main (argc, argv)
 int argc;
 char *argv[];
@@ -34,7 +37,7 @@ char *argv[];
       exit(1);
    }
     printf ("Remote Program contacted successfully.\n");
-    printf ("Enter Command out of    I i d l u c q s \n");
+    printf ("Enter Command out of    I i d l u c s S q\n");
    
    while (1) {
       wrdlen = nextin (&cmd, word, word2);
@@ -77,17 +80,18 @@ char *argv[];
             printf ("current word count is: %d\n", countw());
             break;
          case 's':
-            printf ("Client: Select1 is called.\n");
+            printf ("Client: Select is called.\n");
             res = selectw();
-            printf ("current word count is: %s\n", res);
+            printf ("all entries (string):\n%s\n", res);
             break;
          case 'S': 
+            printf ("Client: Select2 is called.\n");
             mw = select2w();
-            printf("Alle Einträge (Liste):\n");
+            printf("all entries (list):\n");
             for(i=0; i<mw.words.words_len; i++){
                   printf("%s \n", mw.words.words_val[i]);
             }
-            break
+            break;
          case 'q':
             printf ("program quits.\n");
             exit(0);

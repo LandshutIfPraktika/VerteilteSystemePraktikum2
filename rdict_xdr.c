@@ -35,7 +35,7 @@ xdr_manywords(xdrs, objp)
 	manywords *objp;
 {
 
-	if (!xdr_array(xdrs, (char **)&objp->words.words_val, (u_int *)&objp->words.words_len, DICSIZ, sizeof(oneword), (xdrproc_t)xdr_oneword))
+	if (!xdr_array(xdrs, (char **)&objp->words.words_val, (u_int *)&objp->words.words_len, DICTSIZ, sizeof(oneword), (xdrproc_t)xdr_oneword))
 		return (FALSE);
 	return (TRUE);
 }
