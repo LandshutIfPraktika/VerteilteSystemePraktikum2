@@ -98,3 +98,16 @@ selectw_1(argp, clnt)
 		return (NULL);
 	return (&clnt_res);
 }
+
+manywords *
+select2w_1(argp, clnt)
+	void *argp;
+	CLIENT *clnt;
+{
+	static manywords clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	if (clnt_call(clnt, SELECT2W, xdr_void, argp, xdr_manywords, &clnt_res, TIMEOUT) != RPC_SUCCESS)
+		return (NULL);
+	return (&clnt_res);
+}

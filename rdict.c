@@ -25,6 +25,7 @@ char *argv[];
    int i;
    int length;
    char *res;
+   manywords mw;
 
 
    handle = clnt_create (RMACHINE, RDICTPROG, RDICTVERS, "TCP");
@@ -80,6 +81,13 @@ char *argv[];
             res = selectw();
             printf ("current word count is: %s\n", res);
             break;
+         case 'S': 
+            mw = select2w();
+            printf("Alle Einträge (Liste):\n");
+            for(i=0; i<mw.words.words_len; i++){
+                  printf("%s \n", mw.words.words_val[i]);
+            }
+            break
          case 'q':
             printf ("program quits.\n");
             exit(0);

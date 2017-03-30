@@ -7,6 +7,7 @@
 extern CLIENT *handle;
 static int *ret;
 static char ** result;
+static manywords * mw;
 
 int initw() {
    ret = initw_1 (0, handle);
@@ -58,5 +59,10 @@ int countw (){
 
 char * selectw (){
     result = selectw_1(0, handle);
-    return *result;
+    return * result;
+}
+
+manywords select2w(void){
+    mw = select2w_1(0, handle);
+    return * mw;
 }

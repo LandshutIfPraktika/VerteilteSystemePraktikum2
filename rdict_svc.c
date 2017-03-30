@@ -129,6 +129,12 @@ rdictprog_1(rqstp, transp)
 		local = (char *(*)()) selectw_1_svc;
 		break;
 
+	case SELECT2W:
+		xdr_argument = xdr_void;
+		xdr_result = xdr_manywords;
+		local = (char *(*)()) select2w_1_svc;
+		break;
+
 	default:
 		svcerr_noproc(transp);
 		_rpcsvcdirty = 0;

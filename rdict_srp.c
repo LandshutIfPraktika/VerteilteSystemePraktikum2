@@ -5,7 +5,7 @@
 #include "rdict.h"
 char dict[DICTSIZ] [MAXWORD+1];
 int  nwords = 0;
-char result[DICTSIZ * MAXWORD + DICTSIZ + 1];
+manywords mw;
 
 int initw() {
    nwords = 0;
@@ -63,7 +63,9 @@ int countw () {
       return nwords;
 }
 
-char * selectw() {
+char * selectw(result)
+char *result;
+{
       int i;
       for (i = 0; i < nwords; i++){
             if (!i) {
@@ -75,4 +77,14 @@ char * selectw() {
             }
       }
       return result;
+}
+
+manywords select2w(){
+      int i;
+      mw.words.words_val = malloc(sizeof(struct oneword)*nwords);
+      for (i = 0; i < nwords; i++){
+            mw.words.words_val[i].word = dict[i];
+      }
+      mw.words.words_len = nwords;
+      return mw;
 }

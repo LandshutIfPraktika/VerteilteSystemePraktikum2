@@ -12,16 +12,25 @@ struct upd {
    string upd_new <MAXWORD>;
 };
 
+struct oneword {
+    string word <MAXWORD>;
+};
+
+struct manywords {
+    oneword words <DICSIZ>;
+};
+
 program RDICTPROG{
    version RDICTVERS {
    
-      int  INITW (void)       = 1;
-      int  INSERTW (string)   = 2;
-      int  DELETEW (string)   = 3;
-      int  LOOKUPW (string)   = 4;
-      int  UPDATEW (upd)      = 5;
-      int  COUNTW (void)      = 6;
-      string SELECTW (void)  = 7;
+      int  INITW (void)         = 1;
+      int  INSERTW (string)     = 2;
+      int  DELETEW (string)     = 3;
+      int  LOOKUPW (string)     = 4;
+      int  UPDATEW (upd)        = 5;
+      int  COUNTW (void)        = 6;
+      string SELECTW (void)     = 7;
+      manywords SELECT2W (void) = 8;
       
       
    } = 1;

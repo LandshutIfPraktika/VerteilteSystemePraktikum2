@@ -28,6 +28,35 @@ bool_t xdr_upd();
 #endif /* Old Style C */
 
 
+struct oneword {
+	char *word;
+};
+typedef struct oneword oneword;
+#ifdef __cplusplus
+extern "C" bool_t xdr_oneword(XDR *, oneword*);
+#elif __STDC__
+extern  bool_t xdr_oneword(XDR *, oneword*);
+#else /* Old Style C */
+bool_t xdr_oneword();
+#endif /* Old Style C */
+
+
+struct manywords {
+	struct {
+		u_int words_len;
+		oneword *words_val;
+	} words;
+};
+typedef struct manywords manywords;
+#ifdef __cplusplus
+extern "C" bool_t xdr_manywords(XDR *, manywords*);
+#elif __STDC__
+extern  bool_t xdr_manywords(XDR *, manywords*);
+#else /* Old Style C */
+bool_t xdr_manywords();
+#endif /* Old Style C */
+
+
 #define RDICTPROG ((rpc_uint)0x30090949)
 #define RDICTVERS ((rpc_uint)1)
 
@@ -53,6 +82,9 @@ extern "C" int * countw_1_svc(void *, struct svc_req *);
 #define SELECTW ((rpc_uint)7)
 extern "C" char ** selectw_1(void *, CLIENT *);
 extern "C" char ** selectw_1_svc(void *, struct svc_req *);
+#define SELECT2W ((rpc_uint)8)
+extern "C" manywords * select2w_1(void *, CLIENT *);
+extern "C" manywords * select2w_1_svc(void *, struct svc_req *);
 
 #elif __STDC__
 #define INITW ((rpc_uint)1)
@@ -76,6 +108,9 @@ extern  int * countw_1_svc(void *, struct svc_req *);
 #define SELECTW ((rpc_uint)7)
 extern  char ** selectw_1(void *, CLIENT *);
 extern  char ** selectw_1_svc(void *, struct svc_req *);
+#define SELECT2W ((rpc_uint)8)
+extern  manywords * select2w_1(void *, CLIENT *);
+extern  manywords * select2w_1_svc(void *, struct svc_req *);
 
 #else /* Old Style C */
 #define INITW ((rpc_uint)1)
@@ -99,6 +134,9 @@ extern  int * countw_1_svc();
 #define SELECTW ((rpc_uint)7)
 extern  char ** selectw_1();
 extern  char ** selectw_1_svc();
+#define SELECT2W ((rpc_uint)8)
+extern  manywords * select2w_1();
+extern  manywords * select2w_1_svc();
 #endif /* Old Style C */
 
 #endif /* !_RDICT_H_RPCGEN */

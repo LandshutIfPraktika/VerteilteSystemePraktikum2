@@ -17,3 +17,25 @@ xdr_upd(xdrs, objp)
 		return (FALSE);
 	return (TRUE);
 }
+
+bool_t
+xdr_oneword(xdrs, objp)
+	XDR *xdrs;
+	oneword *objp;
+{
+
+	if (!xdr_string(xdrs, &objp->word, MAXWORD))
+		return (FALSE);
+	return (TRUE);
+}
+
+bool_t
+xdr_manywords(xdrs, objp)
+	XDR *xdrs;
+	manywords *objp;
+{
+
+	if (!xdr_array(xdrs, (char **)&objp->words.words_val, (u_int *)&objp->words.words_len, DICSIZ, sizeof(oneword), (xdrproc_t)xdr_oneword))
+		return (FALSE);
+	return (TRUE);
+}
