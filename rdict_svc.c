@@ -8,9 +8,15 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <rpc/pmap_clnt.h>
+#include <string.h>
 #include <netdb.h>
 #include <signal.h>
 #include <sys/ttycom.h>
+#ifdef __cplusplus
+#include <sysent.h>
+#endif /* __cplusplus */
 #include <memory.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -30,8 +36,7 @@ static int _rpcfdtype;		/* Whether Stream or Datagram ? */
 static int _rpcsvcdirty;	/* Still serving ? */
 
 static
-void _msgout(msg)
-	char *msg;
+void _msgout(char* msg)
 {
 #ifdef RPC_SVC_FG
 	if (_rpcpmstart)
@@ -42,6 +47,8 @@ void _msgout(msg)
 	syslog(LOG_ERR, "%s", msg);
 #endif
 }
+
+static void closedown(void);
 
 static void
 closedown()
@@ -65,10 +72,10 @@ closedown()
 	(void) alarm(_RPCSVC_CLOSEDOWN);
 }
 
+static void rdictprog_1(struct svc_req *rqstp, SVCXPRT *transp);
+
 static void
-rdictprog_1(rqstp, transp)
-	struct svc_req *rqstp;
-	SVCXPRT *transp;
+rdictprog_1(struct svc_req *rqstp, SVCXPRT *transp)
 {
 	union {
 		char *insertw_1_arg;
@@ -77,8 +84,8 @@ rdictprog_1(rqstp, transp)
 		upd updatew_1_arg;
 	} argument;
 	char *result;
-	bool_t (*xdr_argument)(), (*xdr_result)();
-	char *(*local)();
+	xdrproc_t xdr_argument, xdr_result;
+	char *(*local)(char *, struct svc_req *);
 
 	_rpcsvcdirty = 1;
 	switch (rqstp->rq_proc) {
@@ -88,51 +95,51 @@ rdictprog_1(rqstp, transp)
 		return;
 
 	case INITW:
-		xdr_argument = xdr_void;
-		xdr_result = xdr_int;
-		local = (char *(*)()) initw_1_svc;
+		xdr_argument = (xdrproc_t) xdr_void;
+		xdr_result = (xdrproc_t) xdr_int;
+		local = (char *(*)(char *, struct svc_req *)) initw_1_svc;
 		break;
 
 	case INSERTW:
-		xdr_argument = xdr_wrapstring;
-		xdr_result = xdr_int;
-		local = (char *(*)()) insertw_1_svc;
+		xdr_argument = (xdrproc_t) xdr_wrapstring;
+		xdr_result = (xdrproc_t) xdr_int;
+		local = (char *(*)(char *, struct svc_req *)) insertw_1_svc;
 		break;
 
 	case DELETEW:
-		xdr_argument = xdr_wrapstring;
-		xdr_result = xdr_int;
-		local = (char *(*)()) deletew_1_svc;
+		xdr_argument = (xdrproc_t) xdr_wrapstring;
+		xdr_result = (xdrproc_t) xdr_int;
+		local = (char *(*)(char *, struct svc_req *)) deletew_1_svc;
 		break;
 
 	case LOOKUPW:
-		xdr_argument = xdr_wrapstring;
-		xdr_result = xdr_int;
-		local = (char *(*)()) lookupw_1_svc;
+		xdr_argument = (xdrproc_t) xdr_wrapstring;
+		xdr_result = (xdrproc_t) xdr_int;
+		local = (char *(*)(char *, struct svc_req *)) lookupw_1_svc;
 		break;
 
 	case UPDATEW:
-		xdr_argument = xdr_upd;
-		xdr_result = xdr_int;
-		local = (char *(*)()) updatew_1_svc;
+		xdr_argument = (xdrproc_t) xdr_upd;
+		xdr_result = (xdrproc_t) xdr_int;
+		local = (char *(*)(char *, struct svc_req *)) updatew_1_svc;
 		break;
 
 	case COUNTW:
-		xdr_argument = xdr_void;
-		xdr_result = xdr_int;
-		local = (char *(*)()) countw_1_svc;
+		xdr_argument = (xdrproc_t) xdr_void;
+		xdr_result = (xdrproc_t) xdr_int;
+		local = (char *(*)(char *, struct svc_req *)) countw_1_svc;
 		break;
 
 	case SELECTW:
-		xdr_argument = xdr_void;
-		xdr_result = xdr_wrapstring;
-		local = (char *(*)()) selectw_1_svc;
+		xdr_argument = (xdrproc_t) xdr_void;
+		xdr_result = (xdrproc_t) xdr_wrapstring;
+		local = (char *(*)(char *, struct svc_req *)) selectw_1_svc;
 		break;
 
 	case SELECT2W:
-		xdr_argument = xdr_void;
-		xdr_result = xdr_manywords;
-		local = (char *(*)()) select2w_1_svc;
+		xdr_argument = (xdrproc_t) xdr_void;
+		xdr_result = (xdrproc_t) xdr_manywords;
+		local = (char *(*)(char *, struct svc_req *)) select2w_1_svc;
 		break;
 
 	default:
@@ -146,7 +153,7 @@ rdictprog_1(rqstp, transp)
 		_rpcsvcdirty = 0;
 		return;
 	}
-	result = (*local)(&argument, rqstp);
+	result = (*local)((char *)&argument, rqstp);
 	if (result != NULL && !svc_sendreply(transp, (xdrproc_t) xdr_result, result)) {
 		svcerr_systemerr(transp);
 	}
@@ -159,11 +166,10 @@ rdictprog_1(rqstp, transp)
 }
 
 
+int main( int argc, char* argv[] );
 
 int
-main(argc, argv)
-int argc;
-char *argv[];
+main( int argc, char* argv[] )
 {
 	SVCXPRT *transp = NULL;
 	int sock;
@@ -248,7 +254,7 @@ char *argv[];
 		exit(1);
 	}
 	if (_rpcpmstart) {
-		(void) signal(SIGALRM, (void(*)()) closedown);
+		(void) signal(SIGALRM, (SIG_PF) closedown);
 		(void) alarm(_RPCSVC_CLOSEDOWN);
 	}
 	svc_run();

@@ -6,9 +6,7 @@
 #include "rdict.h"
 
 bool_t
-xdr_upd(xdrs, objp)
-	XDR *xdrs;
-	upd *objp;
+xdr_upd(XDR *xdrs, upd *objp)
 {
 
 	if (!xdr_string(xdrs, &objp->upd_old, MAXWORD))
@@ -19,9 +17,7 @@ xdr_upd(xdrs, objp)
 }
 
 bool_t
-xdr_oneword(xdrs, objp)
-	XDR *xdrs;
-	oneword *objp;
+xdr_oneword(XDR *xdrs, oneword *objp)
 {
 
 	if (!xdr_string(xdrs, &objp->word, MAXWORD))
@@ -30,9 +26,7 @@ xdr_oneword(xdrs, objp)
 }
 
 bool_t
-xdr_manywords(xdrs, objp)
-	XDR *xdrs;
-	manywords *objp;
+xdr_manywords(XDR *xdrs, manywords *objp)
 {
 
 	if (!xdr_array(xdrs, (char **)&objp->words.words_val, (u_int *)&objp->words.words_len, DICTSIZ, sizeof(oneword), (xdrproc_t)xdr_oneword))

@@ -7,15 +7,13 @@
 
 #include <rpc/rpc.h>
 #include "rdict.h"
+#include "rdict_int.h"
 
 
 static int retcode;
 static char * result;
 static manywords mw;
 
-// this is fucking important !!!!!!!!!!!!
-char * selectw();
-manywords select2w();
 
 int *initw_1_svc(dummy, handle)
 void *dummy;

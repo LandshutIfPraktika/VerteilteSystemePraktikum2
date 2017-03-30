@@ -3,20 +3,20 @@
 #include <rpc/rpc.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <stdlib.h>
 
 #include "rdict.h"
+#include "rdict_int.h"
 
 #define MAXLINE 80
 #define RMACHINE  "localhost"
 
 /* andere Server-Maschine: muss in /etc/hosts.allow konfiguriert werden */
 /* #define RMACHINE "lux32" */
+int nextin (char *, char *, char *);
 
 CLIENT *handle;
 
-// thats why we have .h files
-char * selectw();
-manywords select2w();
 
 int main (argc, argv)
 int argc;
@@ -90,7 +90,7 @@ char *argv[];
             mw = select2w();
             printf("all entries (list):\n");
             for(i=0; i<mw.words.words_len; i++){
-                  printf("%s \n", mw.words.words_val[i]);
+                  printf("%s \n", mw.words.words_val[i].word);
             }
             break;
          case 'q':
