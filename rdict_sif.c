@@ -13,7 +13,7 @@ static int retcode;
 static char * result;
 static manywords mw;
 
-
+// this is fucking important !!!!!!!!!!!!
 char * selectw();
 manywords select2w();
 

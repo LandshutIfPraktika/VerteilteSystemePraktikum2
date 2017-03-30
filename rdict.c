@@ -14,6 +14,7 @@
 
 CLIENT *handle;
 
+// thats why we have .h files
 char * selectw();
 manywords select2w();
 
