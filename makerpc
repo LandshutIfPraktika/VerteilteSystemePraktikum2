@@ -1,0 +1,19 @@
+rpcgen rdict.x
+
+cc -c rdict_clnt.c
+cc -c rdict_cif.c
+cc -c rdict.c
+
+cc -c rdict_xdr.c
+
+cc -o rdict rdict_clnt.o rdict_cif.o rdict.o rdict_xdr.o
+
+cc -c rdict_svc.c
+cc -c rdict_sif.c
+cc -c rdict_srp.c
+
+cc -o rdictd rdict_svc.o rdict_sif.o rdict_srp.o rdict_xdr.o
+
+#rdictd  (im Hintergrund mit & oder in einer eigenen Shell)
+
+#rdict (in einer eigenen Shell)
