@@ -1,3 +1,7 @@
 build/*
 .vscode
 *.pdf
+rdict.h
+rdict_clnt.c
+rdict_svc.c
+rdict_xdr.c
