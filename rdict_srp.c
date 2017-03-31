@@ -7,6 +7,8 @@ char dict[DICTSIZ] [MAXWORD+1];
 int  nwords = 0;
 manywords mw;
 
+char result[DICTSIZ * MAXWORD + DICTSIZ + 1];
+
 int initw() {
    nwords = 0;
    return 1;
@@ -63,10 +65,9 @@ int countw () {
       return nwords;
 }
 
-char * selectw(result)
-char *result;
-{
+char * selectw(){
       int i;
+      memset(result, 0 , sizeof(result));
       for (i = 0; i < nwords; i++){
             if (!i) {
                   strcpy( result, dict[i]);
@@ -80,7 +81,12 @@ char *result;
 }
 
 manywords select2w(){
+      static int beenThere;
       int i;
+      if (beenThere) {
+            free(mw.words.words_val);
+      }
+      beenThere = 1;
       mw.words.words_val = malloc(sizeof(struct oneword)*nwords);
       for (i = 0; i < nwords; i++){
             mw.words.words_val[i].word = dict[i];

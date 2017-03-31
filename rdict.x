@@ -17,7 +17,7 @@ struct oneword {
 };
 
 struct manywords {
-    oneword words <DICSIZ>;
+    oneword words <DICTSIZ>;
 };
 
 program RDICTPROG{

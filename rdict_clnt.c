@@ -3,15 +3,14 @@
  * It was generated using rpcgen.
  */
 
+#include <memory.h>
 #include "rdict.h"
 
 /* Default timeout can be changed using clnt_control() */
 static struct timeval TIMEOUT = { 25, 0 };
 
 int *
-initw_1(argp, clnt)
-	void *argp;
-	CLIENT *clnt;
+initw_1(void *argp, CLIENT *clnt)
 {
 	static int clnt_res;
 
@@ -22,9 +21,7 @@ initw_1(argp, clnt)
 }
 
 int *
-insertw_1(argp, clnt)
-	char **argp;
-	CLIENT *clnt;
+insertw_1(char **argp, CLIENT *clnt)
 {
 	static int clnt_res;
 
@@ -35,9 +32,7 @@ insertw_1(argp, clnt)
 }
 
 int *
-deletew_1(argp, clnt)
-	char **argp;
-	CLIENT *clnt;
+deletew_1(char **argp, CLIENT *clnt)
 {
 	static int clnt_res;
 
@@ -48,9 +43,7 @@ deletew_1(argp, clnt)
 }
 
 int *
-lookupw_1(argp, clnt)
-	char **argp;
-	CLIENT *clnt;
+lookupw_1(char **argp, CLIENT *clnt)
 {
 	static int clnt_res;
 
@@ -61,9 +54,7 @@ lookupw_1(argp, clnt)
 }
 
 int *
-updatew_1(argp, clnt)
-	upd *argp;
-	CLIENT *clnt;
+updatew_1(upd *argp, CLIENT *clnt)
 {
 	static int clnt_res;
 
@@ -74,9 +65,7 @@ updatew_1(argp, clnt)
 }
 
 int *
-countw_1(argp, clnt)
-	void *argp;
-	CLIENT *clnt;
+countw_1(void *argp, CLIENT *clnt)
 {
 	static int clnt_res;
 
@@ -87,9 +76,7 @@ countw_1(argp, clnt)
 }
 
 char **
-selectw_1(argp, clnt)
-	void *argp;
-	CLIENT *clnt;
+selectw_1(void *argp, CLIENT *clnt)
 {
 	static char *clnt_res;
 
@@ -100,9 +87,7 @@ selectw_1(argp, clnt)
 }
 
 manywords *
-select2w_1(argp, clnt)
-	void *argp;
-	CLIENT *clnt;
+select2w_1(void *argp, CLIENT *clnt)
 {
 	static manywords clnt_res;
 
