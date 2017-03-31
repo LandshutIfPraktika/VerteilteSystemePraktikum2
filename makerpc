@@ -1,4 +1,4 @@
-rpcgen rdict.x
+rpcgen -C rdict.x
 
 cc -c rdict_clnt.c
 cc -c rdict_cif.c

@@ -62,7 +62,7 @@ char * selectw (){
     return * result;
 }
 
-manywords select2w(void){
+manywords select2w (){
     mw = select2w_1(0, handle);
     return * mw;
 }
